@@ -195,6 +195,10 @@
 
   when: images_archive_exists | default(false)
 
+- name: Set default values for offline_img_dir if it is undefined
+  set_fact:
+    offline_img_dir: "{{ offline_img_dir | default('') }}"
+
 - name: "{{ download_images_task_name }}"
   script: download_images.py {{ download_images }}
   register: download_images_output
@@ -204,6 +208,7 @@
   failed_when: download_images_output.rc != 0
   environment:
     REGISTRIES: "{{ registries | to_json }}"
+    OFFLINE_IMG_DIR: "{{ offline_img_dir }}"
 
 - debug:
     msg: "{{ download_images_output.stdout_lines }}"
