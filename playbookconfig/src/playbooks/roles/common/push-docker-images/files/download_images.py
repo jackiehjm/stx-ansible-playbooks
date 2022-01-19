@@ -44,6 +44,8 @@ add_docker_prefix = False
 crictl_image_list = []
 backed_up_crictl_cache_images = os.environ.get('CRICTL_CACHE_IMAGES', None)
 
+offline_img_suffix = ['.tar.gz', '.tar.bz2', '.tar']
+offline_img_dir = os.environ.get('OFFLINE_IMG_DIR', '')
 
 def get_local_registry_auth():
     password = keyring.get_password("sysinv", "services")
@@ -51,6 +53,16 @@ def get_local_registry_auth():
         raise Exception("Local registry password not found.")
     return dict(username="sysinv", password=str(password))
 
+def get_offline_img_file(img):
+    if not offline_img_dir:
+        return False
+
+    for suffix in offline_img_suffix:
+        img_file_name = img.replace("/", "_").replace(":", "_") + suffix
+        img_file = os.path.join(offline_img_dir, img_file_name)
+        if os.path.exists(img_file):
+            return img_file
+    return False
 
 def convert_img_for_local_lookup(img):
     # This function converts the given image reference to the
@@ -179,6 +191,7 @@ def download_and_push_an_image(img):
     local_img = convert_img_for_local_lookup(img)
     target_img = get_img_tag_with_registry(img)
     err_msg = " Image download failed: %s " % target_img
+    offline_img_file = get_offline_img_file(img)
 
     client = docker.APIClient()
     auth = get_local_registry_auth()
@@ -210,13 +223,18 @@ def download_and_push_an_image(img):
         return target_img, True
     except docker.errors.APIError as e:
         print(str(e))
-        print("Image %s not found on local registry, attempt to download..."
+        print("Image %s not found on local registry, attempt to load from offline file or download..."
               % target_img)
         try:
-            response = client.pull(target_img)
-            check_response(response)
-            print("Image download succeeded: %s" % target_img)
-            client.tag(target_img, local_img)
+            if offline_img_file:
+                with open(offline_img_file, 'rb') as f:
+                    client.load_image(f)
+                    print("Image loaded from offline file (%s) succeeded: %s" % (offline_img_file, local_img))
+            else:
+                response = client.pull(target_img)
+                check_response(response)
+                print("Image download succeeded: %s" % target_img)
+                client.tag(target_img, local_img)
             client.push(local_img, auth_config=auth)
             print("Image push succeeded: %s" % local_img)
 

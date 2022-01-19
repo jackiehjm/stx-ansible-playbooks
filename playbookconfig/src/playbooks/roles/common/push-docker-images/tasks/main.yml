@@ -260,6 +260,7 @@
 - block:
   - set_fact:
       download_images: "{{ download_images_list | join(',') }}"
+      offline_img_dir: "{{ offline_img_dir | default('') }}"
 
   - name: "{{ download_images_task_name }}"
     script: download_images.py {{ download_images }}
@@ -272,6 +273,7 @@
       REGISTRIES: "{{ registries | to_json }}"
       ADD_DOCKER_PREFIX: "{{ add_docker_prefix }}"
       CRICTL_CACHE_IMAGES: "{{ crictl_image_cache_list|default(None) }}"
+      OFFLINE_IMG_DIR: "{{ offline_img_dir }}"
 
   - debug:
       msg: "{{ download_images_output.stdout_lines }}"
