@@ -2,8 +2,8 @@
 images:
   tags:
     api: "registry.local:9001/{{ armada_img | regex_replace('^(?P<host>.+):(?P<port>\\d+)?/(?P<rest>.+)$', '\\g<host>/\\g<rest>') }}"
-    dep_check: 'registry.local:9001/quay.io/stackanetes/kubernetes-entrypoint:v0.3.1'
-    tiller: 'registry.local:9001/ghcr.io/helm/tiller:v2.16.9'
+    dep_check: 'registry.local:9001/docker.io/stx4arm/kubernetes-entrypoint:v0.3.1'
+    tiller: 'registry.local:9001/docker.io/stx4arm/tiller:v2.16.9'
 labels:
   # Configure sane node labels values that work with armada node selector.
   # Helm v3 validation prevents null overrides.
