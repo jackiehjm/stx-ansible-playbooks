@@ -140,6 +140,7 @@
       kube_component_list:
         - k8s-app=calico-node
         - k8s-app=kube-proxy
+        - app=multus
         - component=kube-apiserver
         - component=kube-controller-manager
         - component=kube-scheduler
