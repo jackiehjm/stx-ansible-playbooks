@@ -200,7 +200,7 @@ data:
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: kube-multus-ds-amd64
+  name: kube-multus-ds-arm64
   namespace: kube-system
   labels:
     tier: node
@@ -223,7 +223,7 @@ spec:
     spec:
       hostNetwork: true
       nodeSelector:
-        kubernetes.io/arch: amd64
+        kubernetes.io/arch: arm64
       tolerations:
       - operator: Exists
         effect: NoSchedule
