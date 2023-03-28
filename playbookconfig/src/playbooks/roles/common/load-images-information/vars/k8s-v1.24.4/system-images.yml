@@ -8,7 +8,7 @@ calico_cni_img: quay.io/calico/cni:v3.24.0
 calico_node_img: quay.io/calico/node:v3.24.0
 calico_kube_controllers_img: quay.io/calico/kube-controllers:v3.24.0
 multus_img: ghcr.io/k8snetworkplumbingwg/multus-cni:v3.9.2
-sriov_cni_img: ghcr.io/k8snetworkplumbingwg/sriov-cni:v2.6.3
+sriov_cni_img: docker.io/stx4arm/sriov-cni:v2.6.3
 sriov_network_device_img: ghcr.io/k8snetworkplumbingwg/sriov-network-device-plugin:v3.5.1
 # Nginx images
 nginx_ingress_controller_img: k8s.gcr.io/ingress-nginx/controller:v1.1.1
