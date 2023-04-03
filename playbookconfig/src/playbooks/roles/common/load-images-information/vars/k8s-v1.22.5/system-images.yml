@@ -10,7 +10,7 @@ calico_kube_controllers_img: quay.io/calico/kube-controllers:v3.22.2
 calico_flexvol_img: quay.io/calico/pod2daemon-flexvol:v3.22.2
 multus_img: ghcr.io/k8snetworkplumbingwg/multus-cni:v3.8
 sriov_cni_img: docker.io/stx4arm/sriov-cni:v2.6.2
-sriov_network_device_img: ghcr.io/k8snetworkplumbingwg/sriov-network-device-plugin:v3.4.0
+sriov_network_device_img: docker.io/stx4arm/sriov-network-device-plugin:v3.4.0
 # Nginx images
 nginx_ingress_controller_img: k8s.gcr.io/ingress-nginx/controller:v1.1.1
 nginx_kube_webhook_certgen_img: k8s.gcr.io/ingress-nginx/kube-webhook-certgen:v1.1.1
