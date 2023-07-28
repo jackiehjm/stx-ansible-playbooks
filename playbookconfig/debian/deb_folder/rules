@@ -3,5 +3,15 @@
 # output every command that modifies files on the build system.
 #export DH_VERBOSE = 1
 
+DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH 2>/dev/null)
+
 %:
 	dh $@
+
+override_dh_auto_build:
+ifeq ($(DEB_HOST_ARCH),arm64)
+	sed -i "s/amd64/arm64/g" \
+		$(CURDIR)/playbooks/roles/common/bringup-kubemaster/templates/k8s-*/*.yaml.j2 \
+		$(CURDIR)/playbooks/roles/common/load-images-information/vars/main.yml
+endif
+	dh_auto_build
