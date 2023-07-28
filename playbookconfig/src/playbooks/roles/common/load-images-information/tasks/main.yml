@@ -95,6 +95,14 @@
     when: additional_config_file.stat.exists and
           inventory_hostname != "localhost"
 
+  - name: set images for arm64
+    set_fact:
+      kubernetes_entrypoint_img: "{{ kubernetes_entrypoint_img_arm64 }}"
+      default_backend_img: "{{ default_backend_img_arm64 }}"
+      sriov_cni_img: "{{ sriov_cni_img_arm64 }}"
+      sriov_network_device_img: "{{ sriov_network_device_img_arm64 }}"
+    when: image_architecture == "arm64"
+
   - name: Categorize system images
     set_fact:
       networking_images:
