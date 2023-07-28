@@ -24,7 +24,7 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: kube-sriov-cni-ds-amd64
+  name: "kube-sriov-cni-ds-{{ image_architecture }}"
   namespace: kube-system
   labels:
     tier: node
@@ -46,7 +46,7 @@ spec:
         app: sriov-cni
     spec:
       nodeSelector:
-        kubernetes.io/arch: amd64
+        kubernetes.io/arch: "{{ image_architecture }}"
       tolerations:
       - operator: Exists
         effect: NoSchedule
