@@ -161,7 +161,8 @@ def populate_system_config(client):
                     'vswitch_type': 'none',
                     'shared_services': '[]',
                     'sdn_enabled': False,
-                    'https_enabled': True}
+                    'https_enabled': True,
+                    'pod_to_pod_security_enabled': False}
 
     dc_role = CONF.get('BOOTSTRAP_CONFIG', 'DISTRIBUTED_CLOUD_ROLE')
     if dc_role == 'none':
